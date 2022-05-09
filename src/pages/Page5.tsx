@@ -55,6 +55,15 @@ const getVolumePaint = (attribute, maxVolume, exaggeration) => {
       maxVolume,
       10 * exaggeration,
     ],
+    'line-offset': [
+      'interpolate',
+      ['linear'],
+      ['get', attribute],
+      0,
+      0.5,
+      5,
+      5 * exaggeration,
+    ],
     'line-color': ['case', ...COLOR_RAMP(['get', attribute])],
   };
 };
@@ -112,6 +121,15 @@ const getVolumePaint = (attribute, maxVolume, exaggeration) => {
       1,
       maxVolume,
       10 * exaggeration,
+    ],
+    'line-offset': [
+      'interpolate',
+      ['linear'],
+      ['get', attribute],
+      0,
+      0.5,
+      5,
+      5 * exaggeration,
     ],
     'line-color': ['case', ...COLOR_RAMP(['get', attribute])],
   };
@@ -174,7 +192,7 @@ export default function Page() {
           {/* <Tab label="What's underneath in MapBox?" value="4" /> */}
         </TabList>
       </Box>
-      <TabPanel value="1">Woah, not so fast... (render order, visible, paint dynamic)</TabPanel>
+      <TabPanel value="1">What it was all about (offsets)</TabPanel>
       <TabPanel value="2">
         <MapView>
           <Source id='my-data' type='geojson' data={geojson}>
