@@ -1,23 +1,25 @@
-import ReactMapGL, { Marker } from 'react-map-gl'
+import ReactMapGL from 'react-map-gl'
 
 import maplibregl from 'maplibre-gl'
 
 import 'maplibre-gl/dist/maplibre-gl.css'
 
-export default function MapView() {
+import esri_basemap_style from '../data/esri_basemap_style'
+
+export default function MapView(props) {
   return (
-    <div style={{ width: 800, height: 600 }}>
+    <div style={{ width: '100%', height: 500 }}>
       <ReactMapGL
         initialViewState={{
-          latitude: 37.8,
-          longitude: -122.4,
-          zoom: 14
+          latitude: 51.5,
+          longitude: 3.8,
+          zoom: 10
         }}
         mapLib={maplibregl}
         style={{ width: 800, height: 600 }}
-        mapStyle='https://basemaps.cartocdn.com/gl/positron-gl-style/style.json'
+        mapStyle={esri_basemap_style}
       >
-        <Marker longitude={-122.4} latitude={37.8} color='red' />
+        {props.children}
       </ReactMapGL>
     </div>
   )

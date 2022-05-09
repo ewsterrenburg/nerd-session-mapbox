@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import MapView from '../map/Map'
-import {Source, Layer} from 'react-map-gl'
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
@@ -13,38 +12,7 @@ import SyntaxHighlighter from 'react-syntax-highlighter';
 import esri_basemap_style from '../data/esri_basemap_style'
 import { zenburn } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
-import geojson from '@/data/nebula_sections'
-
-export const simpleBluePaint = {
-  'line-color': 'blue',
-  'line-width': 3,
-};
-
-const layerStyle = {
-  id: 'sections',
-  type: 'line',
-  paint: simpleBluePaint
-}
-
-const codestring = `
-export const simpleBluePaint = {
-  'line-color': 'blue',
-  'line-width': 3,
-};
-
-const layerStyle = {
-  id: 'sections',
-  type: 'line',
-  paint: simpleBluePaint
-}
-
-<MapView>
-  <Source id='my-data' type='geojson' data={geojson}>
-    <Layer {...layerStyle} />
-  </Source>
-</MapView>
-
-<ReactMapGL
+const codestring = `<ReactMapGL
   initialViewState={{
     latitude: 51.5,
     longitude: 3.8,
@@ -74,15 +42,12 @@ export default function Page() {
           <Tab label="Our attempts" value="1" />
           <Tab label="The result" value="2" />
           <Tab label="Looking at the Code" value="3" />
-          {/* <Tab label="What's underneath in MapBox?" value="4" /> */}
+          <Tab label="What's underneath in MapBox?" value="4" />
         </TabList>
       </Box>
-      <TabPanel value="1">Some data would be nice</TabPanel>
+      <TabPanel value="1">The simplest map</TabPanel>
       <TabPanel value="2">
         <MapView>
-          <Source id='my-data' type='geojson' data={geojson}>
-            <Layer {...layerStyle} />
-          </Source>
         </MapView>
       </TabPanel>
       <TabPanel value="3">
@@ -94,7 +59,7 @@ export default function Page() {
           {codestring}
         </SyntaxHighlighter>
       </TabPanel>
-      {/* <TabPanel value="4">
+      <TabPanel value="4">
         <SyntaxHighlighter
           language="javascript"
           style={zenburn}
@@ -102,7 +67,7 @@ export default function Page() {
         >
           {JSON.stringify(esri_basemap_style, null, 2)}
         </SyntaxHighlighter>
-      </TabPanel> */}
+      </TabPanel>
     </TabContext>
   </Box>
   )

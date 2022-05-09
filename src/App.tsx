@@ -2,13 +2,13 @@ import { FC } from 'react'
 import { styled } from '@mui/material'
 
 import Header from '@/header'
-import Page1 from './pages/Page1'
+import Page from './pages/Page3'
 
 const App: FC = () => {
   return (
     <Root>
-      <Header />
-      <Page1 />
+      {/* <Header /> */}
+      <Page />
     </Root>
   )
 }

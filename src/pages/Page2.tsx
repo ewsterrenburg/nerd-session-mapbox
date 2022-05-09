@@ -15,27 +15,89 @@ import { zenburn } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 import geojson from '@/data/nebula_sections'
 
-export const simpleBluePaint = {
-  'line-color': 'blue',
-  'line-width': 3,
+const COLOR_NO_DATA = 'rgba(128,128,128,0.5)';
+const COLOR_VOLUME_1 = 'rgb(241,238,246)';
+const COLOR_VOLUME_2 = 'rgb(208,209,230)';
+const COLOR_VOLUME_3 = 'rgb(166,189,219)';
+const COLOR_VOLUME_4 = 'rgb(116,169,207)';
+const COLOR_VOLUME_5 = 'rgb(54,144,192)';
+const COLOR_VOLUME_6 = 'rgb(5,112,176)';
+const COLOR_VOLUME_7 = 'rgb(3,78,123)';
+
+const getVolumePaint = (attribute, maxVolume) => {
+  function COLOR_RAMP(variable) {
+    return [
+      ['==', variable, null],
+      COLOR_NO_DATA,
+      ['>', variable, maxVolume],
+      COLOR_VOLUME_7,
+      ['>', variable, 0.75 * maxVolume],
+      COLOR_VOLUME_6,
+      ['>', variable, 0.5 * maxVolume],
+      COLOR_VOLUME_5,
+      ['>', variable, 0.25 * maxVolume],
+      COLOR_VOLUME_4,
+      ['>', variable, 0.125 * maxVolume],
+      COLOR_VOLUME_3,
+      ['>', variable, 1],
+      COLOR_VOLUME_2,
+      COLOR_VOLUME_1,
+    ];
+  }
+
+  return {
+    'line-width': 3,
+    'line-color': ['case', ...COLOR_RAMP(['get', attribute])],
+  };
 };
 
 const layerStyle = {
   id: 'sections',
   type: 'line',
-  paint: simpleBluePaint
+  paint: getVolumePaint('Volume|V_Totaal|T_Ochtend', 100),
 }
 
 const codestring = `
-export const simpleBluePaint = {
-  'line-color': 'blue',
-  'line-width': 3,
+const COLOR_NO_DATA = 'rgba(128,128,128,0.5)';
+const COLOR_VOLUME_1 = 'rgb(241,238,246)';
+const COLOR_VOLUME_2 = 'rgb(208,209,230)';
+const COLOR_VOLUME_3 = 'rgb(166,189,219)';
+const COLOR_VOLUME_4 = 'rgb(116,169,207)';
+const COLOR_VOLUME_5 = 'rgb(54,144,192)';
+const COLOR_VOLUME_6 = 'rgb(5,112,176)';
+const COLOR_VOLUME_7 = 'rgb(3,78,123)';
+
+const getVolumePaint = (attribute, maxVolume) => {
+  function COLOR_RAMP(variable) {
+    return [
+      ['==', variable, null],
+      COLOR_NO_DATA,
+      ['>', variable, maxVolume],
+      COLOR_VOLUME_7,
+      ['>', variable, 0.75 * maxVolume],
+      COLOR_VOLUME_6,
+      ['>', variable, 0.5 * maxVolume],
+      COLOR_VOLUME_5,
+      ['>', variable, 0.25 * maxVolume],
+      COLOR_VOLUME_4,
+      ['>', variable, 0.125 * maxVolume],
+      COLOR_VOLUME_3,
+      ['>', variable, 1],
+      COLOR_VOLUME_2,
+      COLOR_VOLUME_1,
+    ];
+  }
+
+  return {
+    'line-width': 3,
+    'line-color': ['case', ...COLOR_RAMP(['get', attribute])],
+  };
 };
 
 const layerStyle = {
   id: 'sections',
   type: 'line',
-  paint: simpleBluePaint
+  paint: getVolumePaint('Volume|V_Totaal|T_Ochtend', 100),
 }
 
 <MapView>
@@ -77,7 +139,7 @@ export default function Page() {
           {/* <Tab label="What's underneath in MapBox?" value="4" /> */}
         </TabList>
       </Box>
-      <TabPanel value="1">Some data would be nice</TabPanel>
+      <TabPanel value="1">Data dependent color would be even nicer</TabPanel>
       <TabPanel value="2">
         <MapView>
           <Source id='my-data' type='geojson' data={geojson}>
