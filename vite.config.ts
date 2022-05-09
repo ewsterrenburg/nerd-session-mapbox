@@ -11,6 +11,7 @@ function pathResolve(dir: string) {
 const shouldAnalyze = process.env.ANALYZE
 
 const config: UserConfig = {
+  server: {hmr: { overlay: false }},
   resolve: {
     alias: [
       {
