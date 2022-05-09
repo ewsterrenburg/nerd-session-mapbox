@@ -177,7 +177,7 @@ const handleCheckboxChange = (event: Event, newValue: boolean | boolean[]) => {
 <FormControlLabel control={<Checkbox
   checked={visible}
   onChange={handleCheckboxChange}
-/>} label="Label" />
+/>} label="Visible" />
 <Slider
   value={exaggeration}
   onChange={handleSliderChange}
@@ -251,7 +251,7 @@ export default function Page() {
         <FormControlLabel control={<Checkbox
           checked={visible}
           onChange={handleCheckboxChange}
-        />} label="Label" />
+        />} label="Visible" />
         <Slider
           value={exaggeration}
           onChange={handleSliderChange}

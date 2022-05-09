@@ -196,7 +196,7 @@ export default function Page() {
             </ListItemIcon>
             <ListItemText
               primary="And we can use our own function to return a paint!"
-              secondary="Which does provide us with a lot of opportunties."
+              secondary="Which does provide us with a lot of opportunities."
             />
           </ListItem>
           <ListItem>
