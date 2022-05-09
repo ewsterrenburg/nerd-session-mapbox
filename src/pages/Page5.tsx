@@ -2,11 +2,23 @@ import { useState } from 'react';
 import MapView from '../map/Map'
 import {Source, Layer} from 'react-map-gl'
 import Typography from '@mui/material/Typography';
+import Slider from '@mui/material/Slider';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
+import Link from '@mui/material/Link';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
+import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
+import SentimentNeutralIcon from '@mui/icons-material/SentimentNeutral';
+import { Image } from 'mui-image'
 
 import SyntaxHighlighter from 'react-syntax-highlighter';
 
@@ -148,15 +160,42 @@ const getLayerSections = (visible, paint, activeFieldName) => {
   };
 };
 
+...
+
+const [exaggeration, setExaggeration] = useState(1);
+const [visible, setVisible] = useState(true);
+
+const handleSliderChange = (event: Event, newValue: number | number[]) => {
+  setExaggeration(newValue as number);
+};
+const handleCheckboxChange = (event: Event, newValue: boolean | boolean[]) => {
+  setVisible(newValue as boolean);
+};
+
+...
+
+<FormControlLabel control={<Checkbox
+  checked={visible}
+  onChange={handleCheckboxChange}
+/>} label="Label" />
+<Slider
+  value={exaggeration}
+  onChange={handleSliderChange}
+  aria-labelledby='discrete-slider'
+  valueLabelDisplay='auto'
+  step={1}
+  min={1}
+  max={20}
+/>
 <MapView>
-<Source id='my-data' type='geojson' data={geojson}>
-  <Layer {...getLayerSections(
-    true,
-    getVolumePaint('Volume|V_Totaal|T_Ochtend', 100, 3),
-    'Volume|V_Totaal|T_Ochtend',
-    )}
-  />
-</Source>
+  <Source id='my-data' type='geojson' data={geojson}>
+    <Layer {...getLayerSections(
+      visible,
+      getVolumePaint('Volume|V_Totaal|T_Ochtend', 100, exaggeration),
+      'Volume|V_Totaal|T_Ochtend',
+      )}
+    />
+  </Source>
 </MapView>
 
 <ReactMapGL
@@ -176,10 +215,20 @@ const getLayerSections = (visible, paint, activeFieldName) => {
 
 export default function Page() {
   const [value, setValue] = useState('1');
+  const [exaggeration, setExaggeration] = useState(1);
+  const [visible, setVisible] = useState(true);
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
+
+  const handleSliderChange = (event: Event, newValue: number | number[]) => {
+    setExaggeration(newValue as number);
+  };
+  const handleCheckboxChange = (event: Event, newValue: boolean | boolean[]) => {
+    setVisible(newValue as boolean);
+  };
+
 
   return (
     <Box sx={{ height: '100vh', width: '100vw', typography: 'body1' }}>
@@ -190,20 +239,39 @@ export default function Page() {
           <Tab label="The result" value="2" />
           <Tab label="Looking at the Code" value="3" />
           {/* <Tab label="What's underneath in MapBox?" value="4" /> */}
+          <Tab label="Conclusions" value="5" />
         </TabList>
       </Box>
-      <TabPanel value="1">What it was all about (offsets)</TabPanel>
+      <TabPanel value="1">
+        <Typography variant="h5" gutterBottom component="div">
+            Goal: Can we finally have offsets?
+        </Typography>
+      </TabPanel>
       <TabPanel value="2">
+        <FormControlLabel control={<Checkbox
+          checked={visible}
+          onChange={handleCheckboxChange}
+        />} label="Label" />
+        <Slider
+          value={exaggeration}
+          onChange={handleSliderChange}
+          aria-labelledby='discrete-slider'
+          valueLabelDisplay='auto'
+          step={1}
+          min={1}
+          max={20}
+        />
         <MapView>
           <Source id='my-data' type='geojson' data={geojson}>
             <Layer {...getLayerSections(
-              true,
-              getVolumePaint('Volume|V_Totaal|T_Ochtend', 100, 3),
+              visible,
+              getVolumePaint('Volume|V_Totaal|T_Ochtend', 100, exaggeration),
               'Volume|V_Totaal|T_Ochtend',
               )}
             />
           </Source>
         </MapView>
+
       </TabPanel>
       <TabPanel value="3">
       <SyntaxHighlighter
@@ -223,6 +291,71 @@ export default function Page() {
           {JSON.stringify(esri_basemap_style, null, 2)}
         </SyntaxHighlighter>
       </TabPanel> */}
+      <TabPanel value="5">
+        <Typography variant="h5" gutterBottom component="div">
+          Conclusions:
+        </Typography>
+        <Image src="/compare.png" width={600} />
+        <List>
+          <ListItem>
+            <ListItemIcon>
+              <SentimentVerySatisfiedIcon color="success" />
+            </ListItemIcon>
+            <ListItemText
+              primary="Finally offsets!"
+              secondary={<>This opens the door for exciting comparison plots! And is something that does seem to lack in the <Link target="_blank" href="https://developers.arcgis.com/javascript/latest/sample-code/playground/live/">ESRI Symbol playground</Link></>}
+            />
+          </ListItem>
+          <ListItem>
+            <ListItemIcon>
+              <SentimentNeutralIcon />
+            </ListItemIcon>
+            <ListItemText
+              primary="Now I want labels!"
+            />
+          </ListItem>
+          <ListItem>
+            <ListItemIcon>
+              <SentimentNeutralIcon />
+            </ListItemIcon>
+            <ListItemText
+              primary="And legends!"
+            />
+          </ListItem>
+          <ListItem>
+            <ListItemIcon>
+              <SentimentNeutralIcon />
+            </ListItemIcon>
+            <ListItemText
+              primary="And all other kinds of symbologies!"
+            />
+          </ListItem>
+          <ListItem>
+            <ListItemIcon>
+              <SentimentNeutralIcon />
+            </ListItemIcon>
+            <ListItemText
+              primary="And point layers!"
+            />
+          </ListItem>
+          <ListItem>
+            <ListItemIcon>
+              <SentimentNeutralIcon />
+            </ListItemIcon>
+            <ListItemText
+              primary="And polygon layers!"
+            />
+          </ListItem>
+          <ListItem>
+            <ListItemIcon>
+              <SentimentNeutralIcon />
+            </ListItemIcon>
+            <ListItemText
+              primary="And use JavaScript logic in stead of quirky MapBox expressions!"
+            />
+          </ListItem>
+        </List>
+      </TabPanel>
     </TabContext>
   </Box>
   )

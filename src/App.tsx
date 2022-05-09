@@ -13,6 +13,7 @@ import Page2 from './pages/Page2'
 import Page3 from './pages/Page3'
 import Page4 from './pages/Page4'
 import Page5 from './pages/Page5'
+import Page6 from './pages/Page6'
 
 
 const App: FC = () => {
@@ -30,10 +31,11 @@ const App: FC = () => {
               <TabList onChange={handleChange} aria-label="lab API tabs example">
                 <Tab label="Just a basemap" value="0" />
                 <Tab label="Add some lines" value="1" />
-                <Tab label="Color by numbers" value="2" />
-                <Tab label="And width as well" value="3" />
+                <Tab label="Coloring by numbers" value="2" />
+                <Tab label="And widthing(?) as well" value="3" />
                 <Tab label="More dynamic goodies" value="4" />
-                <Tab label="Offsets" value="5" />
+                <Tab label="Finally offsets" value="5" />
+                <Tab label="Looking the cow into the butt" value="6" />
               </TabList>
             </Box>
             <TabPanel value="0"><Page0/></TabPanel>
@@ -42,6 +44,7 @@ const App: FC = () => {
             <TabPanel value="3"><Page3/></TabPanel>
             <TabPanel value="4"><Page4/></TabPanel>
             <TabPanel value="5"><Page5/></TabPanel>
+            <TabPanel value="6"><Page6/></TabPanel>
           </TabContext>
         </Box>
       {/* <Header /> */}

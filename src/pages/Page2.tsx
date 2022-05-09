@@ -7,6 +7,13 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
+import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
+import SentimentNeutralIcon from '@mui/icons-material/SentimentNeutral';
 
 import SyntaxHighlighter from 'react-syntax-highlighter';
 
@@ -137,9 +144,14 @@ export default function Page() {
           <Tab label="The result" value="2" />
           <Tab label="Looking at the Code" value="3" />
           {/* <Tab label="What's underneath in MapBox?" value="4" /> */}
+          <Tab label="Conclusions" value="5" />
         </TabList>
       </Box>
-      <TabPanel value="1">Data dependent color would be even nicer</TabPanel>
+      <TabPanel value="1">
+        <Typography variant="h5" gutterBottom component="div">
+          Goal: Can we use our data to symbolize?
+        </Typography>
+      </TabPanel>
       <TabPanel value="2">
         <MapView>
           <Source id='my-data' type='geojson' data={geojson}>
@@ -165,6 +177,46 @@ export default function Page() {
           {JSON.stringify(esri_basemap_style, null, 2)}
         </SyntaxHighlighter>
       </TabPanel> */}
+      <TabPanel value="5">
+        <Typography variant="h5" gutterBottom component="div">
+          Conclusions:
+        </Typography>
+        <List>
+          <ListItem>
+            <ListItemIcon>
+              <SentimentVerySatisfiedIcon color="success" />
+            </ListItemIcon>
+            <ListItemText
+              primary="Yes we can!"
+            />
+          </ListItem>
+          <ListItem>
+            <ListItemIcon>
+              <SentimentVerySatisfiedIcon color="success" />
+            </ListItemIcon>
+            <ListItemText
+              primary="And we can use our own function to return a paint!"
+              secondary="Which does provide us with a lot of opportunties."
+            />
+          </ListItem>
+          <ListItem>
+            <ListItemIcon>
+              <SentimentVerySatisfiedIcon color="success" />
+            </ListItemIcon>
+            <ListItemText
+              primary="Not boring anymore"
+            />
+          </ListItem>
+          <ListItem>
+            <ListItemIcon>
+              <SentimentVeryDissatisfiedIcon color="error" />
+            </ListItemIcon>
+            <ListItemText
+              primary="Yet not pretty either"
+            />
+          </ListItem>
+        </List>
+      </TabPanel>
     </TabContext>
   </Box>
   )

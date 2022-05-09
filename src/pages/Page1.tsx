@@ -1,12 +1,19 @@
 import { useState } from 'react';
 import MapView from '../map/Map'
-import {Source, Layer} from 'react-map-gl'
+import { Source, Layer } from 'react-map-gl'
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
+import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
+import SentimentNeutralIcon from '@mui/icons-material/SentimentNeutral';
 
 import SyntaxHighlighter from 'react-syntax-highlighter';
 
@@ -56,7 +63,7 @@ const layerStyle = {
   >
   {props.children}
 </ReactMapGL>`;
-            
+
 
 
 export default function Page() {
@@ -68,33 +75,38 @@ export default function Page() {
 
   return (
     <Box sx={{ height: '100vh', width: '100vw', typography: 'body1' }}>
-    <TabContext value={value}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <TabList onChange={handleChange} aria-label="lab API tabs example">
-          <Tab label="Our attempts" value="1" />
-          <Tab label="The result" value="2" />
-          <Tab label="Looking at the Code" value="3" />
-          {/* <Tab label="What's underneath in MapBox?" value="4" /> */}
-        </TabList>
-      </Box>
-      <TabPanel value="1">Some data would be nice</TabPanel>
-      <TabPanel value="2">
-        <MapView>
-          <Source id='my-data' type='geojson' data={geojson}>
-            <Layer {...layerStyle} />
-          </Source>
-        </MapView>
-      </TabPanel>
-      <TabPanel value="3">
-      <SyntaxHighlighter
-          language="typescript"
-          style={zenburn}
-          showLineNumbers
-        >
-          {codestring}
-        </SyntaxHighlighter>
-      </TabPanel>
-      {/* <TabPanel value="4">
+      <TabContext value={value}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <TabList onChange={handleChange} aria-label="lab API tabs example">
+            <Tab label="Our attempts" value="1" />
+            <Tab label="The result" value="2" />
+            <Tab label="Looking at the Code" value="3" />
+            {/* <Tab label="What's underneath in MapBox?" value="4" /> */}
+            <Tab label="Conclusions" value="5" />
+          </TabList>
+        </Box>
+        <TabPanel value="1">
+          <Typography variant="h5" gutterBottom component="div">
+            Goal: some data would be nice...
+          </Typography>
+        </TabPanel>
+        <TabPanel value="2">
+          <MapView>
+            <Source id='my-data' type='geojson' data={geojson}>
+              <Layer {...layerStyle} />
+            </Source>
+          </MapView>
+        </TabPanel>
+        <TabPanel value="3">
+          <SyntaxHighlighter
+            language="typescript"
+            style={zenburn}
+            showLineNumbers
+          >
+            {codestring}
+          </SyntaxHighlighter>
+        </TabPanel>
+        {/* <TabPanel value="4">
         <SyntaxHighlighter
           language="javascript"
           style={zenburn}
@@ -103,7 +115,38 @@ export default function Page() {
           {JSON.stringify(esri_basemap_style, null, 2)}
         </SyntaxHighlighter>
       </TabPanel> */}
-    </TabContext>
-  </Box>
+      <TabPanel value="5">
+        <Typography variant="h5" gutterBottom component="div">
+          Conclusions:
+        </Typography>
+        <List>
+          <ListItem>
+            <ListItemIcon>
+              <SentimentVerySatisfiedIcon color="success" />
+            </ListItemIcon>
+            <ListItemText
+              primary="Adding a layer Easy"
+            />
+          </ListItem>
+          <ListItem>
+            <ListItemIcon>
+              <SentimentVerySatisfiedIcon color="success" />
+            </ListItemIcon>
+            <ListItemText
+              primary="And it still seems we can modify things"
+            />
+          </ListItem>
+          <ListItem>
+            <ListItemIcon>
+              <SentimentVeryDissatisfiedIcon color="error" />
+            </ListItemIcon>
+            <ListItemText
+              primary="Still boring!"
+            />
+          </ListItem>
+        </List>
+      </TabPanel>
+      </TabContext>
+    </Box>
   )
 }
